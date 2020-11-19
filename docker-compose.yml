@@ -1,0 +1,31 @@
+version: "3.7"
+   
+services:
+  comparecompanyinfo:
+    build:
+      context: .
+      dockerfile: comparecompanyinfo/Dockerfile
+    ports:
+      - "33301:33301"
+  sendemail:
+    build:
+      context: .
+      dockerfile: sendemail/Dockerfile
+    ports:
+      - "33302:33302"
+  checkcompanyinfo:
+    build:
+      context: .
+      dockerfile: checkcompanyinfo/Dockerfile
+    ports:
+      - "33303:33303"
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    ports:
+      - "33304:33304"
+    links:
+      - comparecompanyinfo
+      - sendemail
+      - checkcompanyinfo
