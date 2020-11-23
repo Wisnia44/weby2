@@ -1,5 +1,4 @@
 version: "3.7"
-   
 services:
   comparecompanyinfo:
     build:
@@ -7,6 +6,12 @@ services:
       dockerfile: comparecompanyinfo/Dockerfile
     ports:
       - "33301:33301"
+  ocr:
+    build: 
+      context: . 
+      dockerfile: ocr/Dockerfile
+    ports:
+      - "33305:33305"
   sendemail:
     build:
       context: .
@@ -19,6 +24,24 @@ services:
       dockerfile: checkcompanyinfo/Dockerfile
     ports:
       - "33303:33303"
+  dane_kup:
+    build:
+      context: .
+      dockerfile: Dane_kup/Dockerfile
+    ports:
+      - "33306:33306"
+  tag:
+    build:
+      context: .
+      dockerfile: tag/Dockerfile
+    ports:
+      - "33307:33307"
+  tax_cal:
+    build:
+      context: .
+      dockerfile: tax_cal/Dockerfile
+    ports:
+      - "33308:33308"
   client:
     build:
       context: .
@@ -29,3 +52,7 @@ services:
       - comparecompanyinfo
       - sendemail
       - checkcompanyinfo
+      - ocr
+      - dane_kup
+      - tag
+      - tax_cal

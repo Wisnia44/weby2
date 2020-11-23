@@ -20,7 +20,7 @@ print(response1.content)
 #send request to sendemail
 address2 = "http://sendemail:33302/sendemail"
 data2 = {
-	"recipient": "<<twoj adres email>>",
+	"recipient": "tttttttttttttt7@gmail.com",
 	"subject": "Temat maila",
 	"body": "Tresc maila"
 }
@@ -32,3 +32,10 @@ print(response2.content)
 address3 = "http://checkcompanyinfo:33303/check/9121480498"
 response3 = requests.get(address3)
 print(response3.content)
+
+#send request to ocr
+address4 = "http://ocr:33305/ocr"
+data4 = {"url":"https://drive.google.com/u/0/uc?id=11MDp5YpGtNKgja5LhPBz_SQs6HkMIXLY&export=download"}
+data4_json = json.dumps(data4)
+response4 = requests.post(address4, json=data4_json)
+print(response4.content)
