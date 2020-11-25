@@ -10,7 +10,7 @@ app.config["DEBUG"] = False
 def send_email(recipient, subject, body):
   fromx = 'projekt.weby2@gmail.com'
   to  = recipient
-  password = "<<paste password>>"
+  password = "<<password>>"
   msg = MIMEText(body)
   msg['Subject'] = subject
   msg['From'] = fromx

@@ -14,6 +14,7 @@ def get_data():
     dane['name'] = source['vendor']['name']
     dane['address'] = source['vendor']['address']
     dane['vendorinfo'] = source['vendor']
+    dane_json = json.dumps(dane)
     return jsonify(dane_json)
 
 if __name__ == "__main__":

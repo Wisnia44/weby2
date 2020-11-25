@@ -5,13 +5,14 @@ import json
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-@app.route('/tags', methods = ['POST'])
+@app.route('/taxcal', methods = ['POST'])
 def tax():
     source_json = request.json
     source = json.loads(source_json)
     tax_list={}
     for i in source['line_items']:
         tax_list[i['description']]=round(1-i['price']/i['total'],2)
+    tax_list_json = json.dumps(tax_list)
     return jsonify(tax_list_json)
 
 if __name__ == "__main__":

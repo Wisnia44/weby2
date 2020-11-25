@@ -16,10 +16,10 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 # get your keys here: https://hub.veryfi.com/api/
-client_id = 'vrfLoNznIGEpybDY14dAPAtFM2SVramJRJSHJca'
-client_secret = 'Rh0jOMOr0UV8B0EOJ18ewEfOhmjwue8FLzzrBieCBdCMy9mtuCbdLUmLmmzyPTMjeDnBDAVAohvicOLgY1FwYolJor27duA1l4fP3KNj6ovrnl5MlukNINnhvTaPmziu'
-username = 'danior909'
-api_key = '56452bf786b2746e6f9730ac552e733d'
+client_id = 'vrf3vw0MXBr2GbWxNZ7OwW26FnCRNXi5axiIPLI'
+client_secret = '07f49DHc5KDcK9V6a6ltZ6rV6IW2CubNbSI2OYwerRutcaiyW7to15C6VnCvphjSXNIJkIUSoPoywM2NGxzsjG2JORrUvImnuehsYBNfui7uo4r8sVJ60MSXA3NpUaAu'
+username = 'daniel.rakoczy.98'
+api_key = '1423daffec3727bdce38280cdb3c1608'
 veryfi_client = Client(client_id, client_secret, username, api_key)
 
 def download_file(url):

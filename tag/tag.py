@@ -14,6 +14,7 @@ def tag():
     tag.append(source['invoice_number'])
     tag.append(source['total'])
     tag.append(source['bill_to_name'])
+    tag_json = json.dumps(tag)
     return jsonify(tag_json)
 
 if __name__ == "__main__":
