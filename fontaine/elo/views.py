@@ -5,7 +5,7 @@ from .models import Mail
 from .forms import MailModelForm
 import requests
 
-
+body = a
 # Create your views here.
 class SendEmailView(View):
 	template_name='elo/sendemail.html'
@@ -38,24 +38,30 @@ class CheckCompanyInfoView(View):
 	pass
 
 class CompareCompanyInfoView(View):
-	template_name='compare'
+	template_name='elo/compare'
 	pass
 
 class TagView(View):
-	template_name='tag'
+	template_name='elo/tag'
 	pass
 
 class TaxCalView(View):
-	template_name='tax'
+	template_name='elo/tax'
 	pass
 
 class DaneKupView(View):
-	template_name='danekup'
+	template_name='elo/danekup'
 	pass
 
 class OcrView(View):
-	template_name='ocr'
-	pass
+	def ocr(self):
+		template_name='elo/ocr'
+		address = "http://ocr:33305/ocr"
+		data = {"url":"https://drive.google.com/u/0/uc?id=11MDp5YpGtNKgja5LhPBz_SQs6HkMIXLY&export=download"}
+		data_json = json.dumps(data)
+		response = requests.post(address, json=data_json)
+
+	
 
 class DownloadView(View):
 	template_name='download'

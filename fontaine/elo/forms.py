@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mail
+from .models import Mail, Ocr
 
 class MailModelForm(forms.ModelForm):
     class Meta:
@@ -8,3 +8,12 @@ class MailModelForm(forms.ModelForm):
         	'subject',
             'body'
         	]
+
+class OcrModelForm(forms.ModelForm):
+    class Meta:
+        model = Ocr
+        fields = ['nip',
+        	'regon',
+            'krs'
+        	]
+

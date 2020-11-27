@@ -25,7 +25,7 @@ SECRET_KEY = 'p8qm)-*@5!hz!7c08f+7=#nvy4f2txz0lspt7pu(v33z*d$-8@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','web','fontaine']
+ALLOWED_HOSTS = ['0.0.0.0','web','fontaine', 'localhost']
 
 
 # Application definition
