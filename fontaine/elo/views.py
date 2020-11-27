@@ -1,20 +1,22 @@
 from django.shortcuts import render
 from django.views import View
 from django.urls import reverse
-from .models import Mail
-from .forms import MailModelForm
+from django.views.generic.edit import FormView
+from .models import Mail, Check
+from .forms import MailModelForm, CheckModelForm
 import requests
+import json
 
-body = a
+
+body = ""
+
+nip = ""
+
 # Create your views here.
-class SendEmailView(View):
+class SendEmailView(FormView):
 	template_name='elo/sendemail.html'
 	form_class = MailModelForm
 	queryset = Mail.objects.all()
-
-	def get (self, request, *args, **kwargs):
-		form = MailModelForm()
-		return render(request, self.template_name, {'form': form})
 
 	def form_valid(self, form):
 		recipient = form.cleaned_data['recipient']
@@ -33,9 +35,22 @@ class SendEmailView(View):
 	def get_success_url(self):
 		return reverse('home')
 
-class CheckCompanyInfoView(View):
-	template_name='checkinfo'
-	pass
+class CheckCompanyInfoView(FormView):
+	template_name='elo/checkinfo.html'
+	form_class = CheckModelForm
+	queryset = Check.objects.all()
+	
+	def form_valid(self, form):
+		nip = form.cleaned_data["nip"]
+		print(nip)
+		address = "http://checkcompanyinfo:33303/check/" + nip
+		print(address)
+		dane_check = requests.get(address)
+		print(dane_check)
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		return reverse('home')
 
 class CompareCompanyInfoView(View):
 	template_name='elo/compare'
