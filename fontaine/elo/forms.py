@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mail
+from .models import Mail, Check
 
 class MailModelForm(forms.ModelForm):
     class Meta:
@@ -8,3 +8,8 @@ class MailModelForm(forms.ModelForm):
         	'subject',
             'body'
         	]
+
+class CheckModelForm(forms.ModelForm):
+    class Meta:
+        model = Check
+        fields = ['nip']

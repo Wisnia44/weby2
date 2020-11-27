@@ -3,7 +3,7 @@
 {% block content %}
 	<p>"elo kurwa"</p>
 	<form action='.' method='POST'>{% csrf_token %}
-		<h4>Podaj szczegóły nowego maila</h4>
+		<h4>Podaj nip do sprawdzenia</h4>
 		{{ form.as_p }}
 		<button class="btn btn-outline-success" type="submit">Wyślij</button>
 	</form>
