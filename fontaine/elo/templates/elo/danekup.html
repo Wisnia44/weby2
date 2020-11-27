@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<p>"Aplikacja webowa do faktur"</p>
+	<form action='.' method='POST'>{% csrf_token %}
+		<h4>Podaj szczegóły dane z faktury </h4>
+		{{ form.as_p }}
+		<button class="btn btn-outline-success" type="submit">Wyślij</button>
+	</form>
+{% endblock %}

@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<p>"elo kurwa"</p>
+	<p>"Aplikacja webowa do faktur"</p>
 	<form action='.' method='POST'>{% csrf_token %}
-		<h4>Podaj szczegóły nowego maila</h4>
+		<h4>Wpisz adres email na jaki chcesz dostać informację</h4>
 		{{ form.as_p }}
 		<button class="btn btn-outline-success" type="submit">Wyślij</button>
 	</form>
+	<a href="/ocr"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Kliknij aby przejść do początku</span></a>
 {% endblock %}

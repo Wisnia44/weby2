@@ -1,9 +1,5 @@
 from django import forms
-<<<<<<< HEAD
-from .models import Mail, Ocr
-=======
-from .models import Mail, Check
->>>>>>> 4a6afaeab0764dbb31e5a856eb52482b01ecbee0
+from .models import Mail, Ocr, Check, Compare, Tag, Tax, Danek
 
 class MailModelForm(forms.ModelForm):
     class Meta:
@@ -13,18 +9,56 @@ class MailModelForm(forms.ModelForm):
             'body'
         	]
 
-<<<<<<< HEAD
 class OcrModelForm(forms.ModelForm):
     class Meta:
         model = Ocr
         fields = ['nip',
         	'regon',
-            'krs'
+            'krs',
+            'name'
         	]
 
-=======
 class CheckModelForm(forms.ModelForm):
     class Meta:
         model = Check
         fields = ['nip']
->>>>>>> 4a6afaeab0764dbb31e5a856eb52482b01ecbee0
+
+class CompareModelForm(forms.ModelForm):
+    class Meta:
+        model = Compare
+        fields = ['nip1',
+        	'regon1',
+            'krs1',
+            'name1',
+            'nip2',
+        	'regon2',
+            'krs2',
+            'name2',
+        	]
+
+class TagModelForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['billtoname',
+        	'billtovat',
+            'created',
+            'number',
+            'total'
+        	]
+
+class TaxModelForm(forms.ModelForm):
+    class Meta:
+        model = Tax
+        fields = ['description1',
+        	'price1',
+            'total1',
+            'description2',
+            'price2',
+            'total2'
+        	]
+class DanekModelForm(forms.ModelForm):
+    class Meta:
+        model = Danek
+        fields = ['nip',
+        	'name'
+            ]
