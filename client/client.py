@@ -1,7 +1,12 @@
 import requests
 import json
 import time
-time.sleep(10)
+print("Zaczalem")
+xd = 1
+while True:
+  xd += 1
+  xd -= 1
+
 """
 #send request to comparecompanyinfo
 address1 = "http://comparecompanyinfo:33301/companyinfocorectness"
@@ -125,12 +130,21 @@ response7 = requests.post(address7, json=data7_json)
 #print(response7.content)
 """
 #send request to download
-address8 = "http://weby2_fileswebdepot_1:33309/api/files/test.pdf"
-payload8={}
-headers8 = {}
-response8 = requests.request("GET", address8, headers=headers8, data=payload8)
-print(response8.text)
-
+"""
+xd = False
+while xd == False:
+  try:
+    address8 = "http://fileswebdepot:33309/api/files/test.pdf"
+    payload8={}
+    headers8 = {}
+    response8 = requests.request("GET", address8)
+    print(response8.text)
+    xd = True
+  except:
+    print("Mamy problem!!!")
+    xd = False
+  time.sleep(10)
+"""
 #send request to upload
 """address9 = "http://fileswebdepot:33309/api/files"
 payload9={}
@@ -141,6 +155,3 @@ headers9 = {}
 response9 = requests.request("POST", address9, headers=headers9, data=payload9, files=files9)
 print(response9.text)
 """
-while True: 
-  pass
-print("blalal") 
