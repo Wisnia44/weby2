@@ -42,12 +42,25 @@ services:
       dockerfile: tax_cal/Dockerfile
     ports:
       - "33308:33308"
+
+  fileswebdepot:
+    build:
+      context: .
+      dockerfile: FilesWebDepot/Dockerfile
+    ports:
+      - "33309:80"
+    networks: 
+      - local
+    hostname: fileswebdepot1
+
   client:
     build:
       context: .
       dockerfile: client/Dockerfile
     ports:
       - "33304:33304"
+    networks: 
+      - local
     links:
       - comparecompanyinfo
       - sendemail
@@ -56,3 +69,9 @@ services:
       - dane_kup
       - tag
       - tax_cal
+      - fileswebdepot
+    hostname: client1
+
+networks:
+  local:
+    driver: bridge
