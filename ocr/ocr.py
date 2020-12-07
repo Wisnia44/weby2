@@ -41,17 +41,20 @@ def OCR():
 def del_temp():
     os.remove("./ocr/temp/file2.png")
     os.remove("./ocr/temp/file.pdf")
+    print("nie usuwam")
 
 @app.route('/ocr', methods = ['POST'])
 def run_program():
     url_json = request.json
     url = json.loads(url_json)
+    print(url)
     download_file(url['url'])
     to_jpg()
     response={}
     response['response'] = OCR()
     del_temp() 
     response_json = json.dumps(response)
+    #response_json = json.dumps(url['url'])
     return jsonify(response_json)
 
 if __name__ == "__main__":
