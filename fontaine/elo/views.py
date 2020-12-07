@@ -6,6 +6,8 @@ from .models import Mail, Check, Ocr, Compare, Tag, Tax, Danek
 from .forms import MailModelForm, CheckModelForm, OcrModelForm, CompareModelForm, TagModelForm, TaxModelForm, DanekModelForm
 import json
 import requests
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 #dane z ocr
 nip1 = "7532451385"
@@ -30,7 +32,7 @@ total21 = 94.5
 
 #dane z checkcompanyinfo
 nip2 = ""
-krs2 = ""
+krs2 = "xsgdfihu"
 regon2 = "" 
 name2 = ""
 check_result = " True "
@@ -68,23 +70,29 @@ class SendEmailView(FormView):
 	def get_success_url(self):
 		return reverse('ocr')
 
-class CheckCompanyInfoView(FormView):
+class CheckCompanyInfoView(View):
 	template_name='elo/checkinfo.html'
 	form_class = CheckModelForm
 	queryset = Check.objects.all()
-	
-
-	def form_valid(self, form):
-		nip = nip1
-		print(nip)
-		address = "http://checkcompanyinfo:33303/check/" + nip
-		print(address)
+		
+	def post(self, request, *args, **kwargs):
+		global nip1, krs2, regon2, name2
+		address = "http://checkcompanyinfo:33303/check/" + nip1
 		dane_check = requests.get(address)
-		print(dane_check)
-		return super().form_valid(form) 
+		dane_check_json = dane_check.json()
+		dane_check_dict = json.loads(dane_check_json)
+		krs2 = dane_check_dict["krs"]
+		regon2 = dane_check_dict["regon"]
+		name2 = dane_check_dict["name"]
+		return HttpResponseRedirect(reverse('checkinfo'))
 
-	def get_success_url(self):
-		return reverse('home')
+	def get(self, request, *args, **kwargs):
+		my_context = {}
+		my_context["krs"] = krs2
+		my_context["regon"] = regon2
+		my_context["name"] = name2
+		return render(request, self.template_name, my_context) 
+		
 
 class CompareCompanyInfoView(FormView):
 	template_name='elo/compare.html'

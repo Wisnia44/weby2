@@ -27,13 +27,22 @@
             	<div class="row">
                 	<div class="col">
 						<form action='.' method='POST'>{% csrf_token %}
-						<h4>Checking the tax ID:</h4>
-						{{ as_p }}
-						<button class="btn btn-block btn-info btn-primary" type="submit" style="background-color: #FFCC01">Check</button>
+						  <h4>Checking the tax ID:</h4>
+						  <input name="buy-now" hidden>
+						  <button class="btn btn-block btn-info btn-primary" type="submit" style="background-color: #FFCC01">Check</button>
 						</form>
 					</div>
 				</div>
-			</div>		
+			</div>	
+      <br />
+      <div class="container">
+              <div class="row">
+                  <div class="col">
+                  <h5>Pobrane dane:</h5>
+                  <p>{{name}}</p>
+                  <p>{{regon}}</p>
+                  <p>{{krs}}</p>
+                  </div></div></div>	
 			<div class="container">
             	<div class="row">
                 	<div class="col">
