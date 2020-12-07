@@ -44,4 +44,5 @@ class Tax(models.Model):
 class Danek(models.Model):
 	nip = models.CharField(max_length=10)
 	name = models.CharField(max_length=150)
+	
 

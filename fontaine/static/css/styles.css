@@ -1,0 +1,116 @@
+body {
+    display: block;
+    overflow-x: hidden;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  nav {
+    background-color: #F7F8FC;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .navbar-brand img {
+    max-height: 50px;
+  }
+  .navbar-brand {
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #000000;
+  }
+  nav ul li a {
+    color: #F7F8FC;
+    font-size: 22px;
+    margin: auto 10px;
+  }
+  nav ul li a:hover {
+    color: #FFCC01;
+  }
+
+
+header.masthead {
+    position: relative;
+    background-color: #343a40;
+    background: url("../img/splash_screen.png") no-repeat center center;
+    background-size: cover;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+  
+header.masthead .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+  }
+  
+header.masthead h1 {
+    font-size: 2rem;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  } 
+
+section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  section h1 {
+    text-transform: uppercase;
+    font-weight: 900;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #FFCC01;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  section p {
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  button {
+    max-width: 50%;
+    border-radius: 50px !important;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  #hero .col {
+    justify-content: center; 
+    flex-direction: column;
+    display: flex;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  #hero .img-col {
+    justify-content: flex-end; 
+    margin-top: 100px;
+  }
+  #hero img {
+    max-width: 130% !important;
+    width: 130%;
+  }
+  #hero .card {
+    box-shadow: 11px 7px 16px #f9f9f9;
+    border: 0;
+    text-align: center;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  #hero .icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+
+  #me {
+    text-align: center;
+    background-color:   #FFCC01;
+    color: white;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  #me h1 {
+    text-align: center;
+    background-color:  #FFCC01;
+    color: white;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }

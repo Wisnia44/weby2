@@ -4,9 +4,10 @@ from .models import Mail, Ocr, Check, Compare, Tag, Tax, Danek
 class MailModelForm(forms.ModelForm):
     class Meta:
         model = Mail
-        fields = ['recipient',
-        	'subject',
-            'body'
+        fields = ['recipient'
+        #,
+        	#'subject',
+            #'body'
         	]
 
 class OcrModelForm(forms.ModelForm):

@@ -7,22 +7,14 @@ from .forms import MailModelForm, CheckModelForm, OcrModelForm, CompareModelForm
 import json
 import requests
 
-#wyciągnięcie danych z check czy ok, wyliczoney podatek 
+#dane z ocr
+nip1 = "7532451385"
+regon1 = "38203259600000 "
+krs1 = "0000762310"
+name1 = "INTEGRAL GROUP SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA"
 
 #dane z ocr
-nip1 = "9121480498"
-regon1 = "930959027"
-krs1 = "0000305240"
-name1 = "ARTIM SAFETY KRZYSZTOF NIEŚCIOR SPÓŁKA JAWNA"
-
-#dane do emaila
-#do body info z check zwrotka
-#do body wyliczony podatek z tax
-subject1 = "informacje o firmie "+ str(name1)
-body1 = "nip: " + str(nip1) + " regon: " + str(regon1) + " krs: " + str(krs1)
-
-#dane z ocr
-billtoname1 =  "INTEGRAL GROUP SPÓŁKA Z OGRANICZONĄ"
+billtoname1 =  "INTEGRAL GROUP SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA"
 billtovat1 = "7532451385"
 created1 = "2020-11-10 11:26:52"
 number1 =  "FV02312/06/2020"
@@ -41,6 +33,15 @@ nip2 = ""
 krs2 = ""
 regon2 = "" 
 name2 = ""
+check_result = " True "
+
+#dane z tax
+tax = 4.5
+
+#dane do emaila
+subject1 = "Informacje o firmie: "+ str(name1)
+body1 = "Dane firmy: " + "nip: " + str(nip1) + ";" + " regon: " + str(regon1) + ";" + " krs: " + str(krs1) + ";" + " Sprawdzenie danych: " + str(check_result) + ";" + " VAT z faktury dla: " + str(description11) + " to: "+ str(tax) 
+
 
 # Create your views here.
 class SendEmailView(FormView):
@@ -65,7 +66,7 @@ class SendEmailView(FormView):
 		return super().form_valid(form)
 
 	def get_success_url(self):
-		return reverse('home')
+		return reverse('ocr')
 
 class CheckCompanyInfoView(FormView):
 	template_name='elo/checkinfo.html'
@@ -261,4 +262,3 @@ class UploadView(View):
 
 class HomeView(View):
 	template_name='elo/home.html'
-	
