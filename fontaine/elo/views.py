@@ -11,9 +11,9 @@ from django.http import HttpResponseRedirect
 
 #dane z ocr
 nip1 = "7532451385"
-regon1 = "38203259600000 "
-krs1 = "0000762310"
-name1 = "INTEGRAL GROUP SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA"
+regon1 = "xd"
+krs1 = "hehe"
+name1 = "elo"
 
 #dane z ocr
 billtoname1 =  "INTEGRAL GROUP SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA"
@@ -31,18 +31,15 @@ price21 = 90
 total21 = 94.5
 
 #dane z checkcompanyinfo
-nip2 = ""
-krs2 = "xsgdfihu"
+krs2 = ""
 regon2 = "" 
 name2 = ""
-check_result = " True "
+check_result = ""
 
 #dane z tax
 tax = 4.5
 
 #dane do emaila
-subject1 = "Informacje o firmie: "+ str(name1)
-body1 = "Dane firmy: " + "nip: " + str(nip1) + ";" + " regon: " + str(regon1) + ";" + " krs: " + str(krs1) + ";" + " Sprawdzenie danych: " + str(check_result) + ";" + " VAT z faktury dla: " + str(description11) + " to: "+ str(tax) 
 
 
 # Create your views here.
@@ -52,11 +49,9 @@ class SendEmailView(FormView):
 	queryset = Mail.objects.all()
 
 	def form_valid(self, form):
-		body = body1
-		subject = subject1
 		recipient = form.cleaned_data['recipient']
-		#subject = form.cleaned_data['subject']
-		#body = form.cleaned_data['body']
+		subject = "Informacje o firmie: "+ str(name1)
+		body = "Dane firmy: " + "nip: " + str(nip1) + ";" + " regon: " + str(regon1) + ";" + " krs: " + str(krs1) + ";" + " Sprawdzenie danych: " + str(check_result) + ";" + " VAT z faktury dla: " + str(description11) + " to: "+ str(tax) 
 		address = "http://sendemail:33302/sendemail"
 		data = {
 			"recipient": recipient,
@@ -68,7 +63,7 @@ class SendEmailView(FormView):
 		return super().form_valid(form)
 
 	def get_success_url(self):
-		return reverse('ocr')
+		return reverse('sendemail')
 
 class CheckCompanyInfoView(View):
 	template_name='elo/checkinfo.html'
@@ -98,40 +93,39 @@ class CompareCompanyInfoView(FormView):
 	template_name='elo/compare.html'
 	form_class = CompareModelForm
 	queryset = Compare.objects.all()
-	def form_valid(self, form):
-		#nip1 = form.cleaned_data["nip1"]
-		#krs1 = form.cleaned_data["krs1"]
-		#regon1 = form.cleaned_data["regon1"]
-		#name1 = form.cleaned_data["name1"]
-		#nip2 = form.cleaned_data["nip2"]
-		#krs2 = form.cleaned_data["krs2"]
-		#regon2 = form.cleaned_data["regon2"]
-		#name2 = form.cleaned_data["name2"]
-		nip = nip1
-		krs = krs1
-		name = name1
-		regon = regon1
-		nip_2 = nip2
-		krs_2 = krs2
-		name_2 = name2
-		regon_2 = regon2
-
+	
+	def post(self, request, *args, **kwargs):
+		global check_result
 		address = "http://comparecompanyinfo:33301/companyinfocorectness"
 		data = {
-    		"nip1": nip,
-    		"krs1": krs,
-    		"name1": name,
-    		"regon1": regon,
-    		"nip2": nip_2,
-    		"krs2": krs_2,
-    		"name2": name_2,
-    		"regon2": regon_2
+    		"nip1": nip1,
+    		"krs1": krs1,
+    		"name1": name1,
+    		"regon1": regon1,
+    		"nip2": nip1,
+    		"krs2": krs2,
+    		"name2": name2,
+    		"regon2": regon2
 		}
 		data_json = json.dumps(data)
-		response1 = requests.post(address, json=data_json)
-		return super().form_valid(form)
-	def get_success_url(self):
-		return reverse('home')
+		response = requests.post(address, json=data_json)
+		response_json = response.json()
+		response_dict = json.loads(response_json)
+		check_result = response_dict["response"]
+		return HttpResponseRedirect(reverse('compare'))
+
+	def get(self, request, *args, **kwargs):
+		my_context = {}
+		my_context["nip1"] = nip1
+		my_context["krs1"] = krs1
+		my_context["regon1"] = regon1
+		my_context["name1"] = name1
+		my_context["nip2"] = nip1
+		my_context["krs2"] = krs2
+		my_context["regon2"] = regon2
+		my_context["name2"] = name2
+		my_context["check_result"] = check_result
+		return render(request, self.template_name, my_context) 
 
 class TagView(FormView):
 	template_name='elo/tag.html'

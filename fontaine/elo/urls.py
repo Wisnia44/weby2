@@ -22,5 +22,5 @@ urlpatterns = [
     path('ocr/', OcrView.as_view(), name='ocr'),
     path('download/', DownloadView.as_view(), name='download'),
     path('upload/', UploadView.as_view(), name='upload'),
-    path('', HomeView.as_view(), name='home'),
+    path('', OcrView.as_view(), name='home'),
 ]
