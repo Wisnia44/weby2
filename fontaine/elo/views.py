@@ -10,25 +10,37 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
 #dane z ocr
-nip1 = "7532451385"
-regon1 = "xd"
-krs1 = "hehe"
-name1 = "elo"
+nip1 = ""
+regon1 = ""
+krs1 = ""
+name1 = ""
 
 #dane z ocr
-billtoname1 =  "INTEGRAL GROUP SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA"
-billtovat1 = "7532451385"
-created1 = "2020-11-10 11:26:52"
-number1 =  "FV02312/06/2020"
-total1 = 94.5
+#billtoname1 =  "INTEGRAL GROUP SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA"
+#billtovat1 = "7532451385"
+#created1 = "2020-11-10 11:26:52"
+#number1 =  "FV02312/06/2020"
+#total1 = 94.5
+billtoname1 = ""
+billtovat1 = ""
+created1 = ""
+number1 =  ""
+total1 = 0
 
 #dane z ocr
-description11 = "JAJA SPOŻ. \"L\" (1A)\nSZT"
-price11 = 100
-total11 = 120
-description21 = "HOTEL METRO BOGUSZYN 79B\nSZT."
-price21 = 90
-total21 = 94.5
+#description11 = "JAJA SPOŻ. \"L\" (1A)\nSZT"
+#price11 = 100
+#total11 = 120
+#description21 = "HOTEL METRO BOGUSZYN 79B\nSZT."
+#price21 = 90
+#total21 = 94.5
+description11 = ""
+price11 = 0
+total11 = 0
+description21 = ""
+price21 = 0
+total21 = 0
+response_ocr = {}
 
 #dane z checkcompanyinfo
 
@@ -145,18 +157,13 @@ class TagView(View):
 	queryset = Tag.objects.all()
 
 	def post(self, request, *args, **kwargs):
-		#billtoname = form.cleaned_data['billtoname']
-		#billtovat = form.cleaned_data['billtovat']
-		#created = form.cleaned_data['created']
-		#number = form.cleaned_data['number']
-		#total = form.cleaned_data['total']
+		global tag_list
 		billtoname = billtoname1
 		billtovat = billtovat1
 		created = created1
 		number = number1
 		total = total1
 		address = "http://tag:33307/tags"
-
 		data = {   
     		"bill_to_name": billtoname,
     		"bill_to_vat_number": billtovat,
@@ -168,42 +175,29 @@ class TagView(View):
 		response = requests.post(address, json=data_json)
 		response_json = response.json()
 		response_dict = json.loads(response_json)
-		global tag_list
 		tag_list="Tagi: "
 		for i in response_dict:
 			tag_list+=str(i)
 			tag_list+=", "
-		"""
-		return super().form_valid(form)
-		"""
 		return HttpResponseRedirect(reverse('tag'))
 
 	def get(self, request, *args, **kwargs):
 		my_context = {}
 		my_context["tag"] = tag_list
-		
 		return render(request, self.template_name, my_context) 
-
-
 
 class TaxCalView(View):
 	template_name='elo/tax.html'
 	form_class = TaxModelForm
 	queryset = Tax.objects.all()
 	def post(self, request, *args, **kwargs):
-		#description_1 = form.cleaned_data['description1']
-		#price_1 = form.cleaned_data['price1']
-		#total_1 = form.cleaned_data['total1']
-		#description_2 = form.cleaned_data['description2']
-		#price_2 = form.cleaned_data['price2']
-		#total_2 = form.cleaned_data['total2']
+		global tax1,tax2
 		description_1 = description11
 		price_1 = price11
 		total_1 = total11
 		description_2 = description21
 		price_2 = price21
 		total_2 = total21
-
 		address = "http://tax_cal:33308/taxcal"
 		data = {"line_items": [
    		 {
@@ -221,10 +215,8 @@ class TaxCalView(View):
 		response = requests.post(address, json=data_json)
 		response_json = response.json()
 		response_dict = json.loads(response_json)
-		global tax1,tax2
-		tax1=response_dict[description11]
-		tax2=response_dict[description21]
-		
+		tax1 = response_dict[description11]
+		tax2 = response_dict[description21]
 		return HttpResponseRedirect(reverse('tax'))
 
 	def get(self, request, *args, **kwargs):
@@ -233,7 +225,6 @@ class TaxCalView(View):
 		my_context["tax1"] = tax1
 		my_context["desc2"] = description21+": "
 		my_context["tax2"] = tax2
-		
 		return render(request, self.template_name, my_context) 
 
 class DaneKupView(FormView):
@@ -242,91 +233,71 @@ class DaneKupView(FormView):
 	queryset = Danek.objects.all()
 
 	def post(self, request, *args, **kwargs):
-		#nip = form.cleaned_data['nip']
-		#name = form.cleaned_data['name']
-		nip =nip1
+		global nipd, named, addressd
+		nip = nip1
 		name = name1
 		address = "http://dane_kup:33306/vendorinfo"
-
-		data = {
-    		'vat_number':nip,
-    			"vendor": {
-       			"address": "polna 2",
-        		"category": "",
-        		"email": "biuro@jajcarz.com",
-        		"fax_number": "123456789",
-        		"name": name,
-        		"phone_number": "680500 700",
-        		"raw_name": "integral Group Sp.k. Sp. z o.o.",
-        		"vendor_logo": "https://cdn.veryfi.com/logos/tmp/007614202.png",
-        		"vendor_reg_number": "123456789",
-        		"vendor_type": "",
-        		"web": ""
-   				}
-		   	}
+		data = response_ocr
 		data_json = json.dumps(data)
 		response = requests.post(address, json=data_json)
 		response_json = response.json()
 		response_dict = json.loads(response_json)
-		global nipd, named, addressd
 		nipd=response_dict["nip"]
 		named=response_dict["name"]
 		addressd=response_dict["address"]
 		dane_check = requests.get(address)
 		return HttpResponseRedirect(reverse('danekup'))
 
-def get(self, request, *args, **kwargs):
+	def get(self, request, *args, **kwargs):
 		my_context = {}
 		my_context["nip"] = nipd
 		my_context["name"] = named
 		my_context["address"] = addressd
-
-		
+		my_context["ocr"] = response_ocr
 		return render(request, self.template_name, my_context) 
-
-
 
 class OcrView(FormView):
 	template_name='elo/ocr.html'
 	form_class = OcrModelForm
 	queryset = Ocr.objects.all()
-	def form_valid(self, form):
-		nip = form.cleaned_data["nip"]
-		regon = form.cleaned_data["regon"]
-		krs = form.cleaned_data["krs"]
-		name = form.cleaned_data["name"]
+	
+	def post(self, request, *args, **kwargs):
+		global nip1, regon1, krs1, name1, billtoname1, billtovat1, number1, total1
+		global description11, price11, price21, total11, total21, description21
+		global response_ocr
+		
 		address = "http://ocr:33305/ocr"
-		data = {"url":"https://drive.google.com/u/0/uc?id=11MDp5YpGtNKgja5LhPBz_SQs6HkMIXLY&export=download"}
+		data = {"url":"https://drive.google.com/u/0/uc?id=1NQ4M5o-REBVzyfSyuV9ywSVXdN98Ce94&export=download"}
 		data_json = json.dumps(data)
 		response = requests.post(address, json=data_json)
-		global nip1, regon1, krs1, name1, billtoname1, billtovat1, number1,total1, description11, price11, price21, total11, total21, description21  
 		
 		response_json = response.json()
 		response_dict = json.loads(response_json)
-		
-		nip1=response_dict["vat_number"]
-		regon1="38203259600000"
-		krs1="0000762310"
-		name1=response_dict["vendor"]["name"]
-		billtoname1=response_dict['vendor']['name']
-		billtovat1=response_dict["bill_to_vat_number"]
-		number1=response_dict["invoice_number"]
-		total1=response_dict["total"]
-		
-		total11=response_dict["line_items"][0]["total"]
-		description11=response_dict["line_items"][0]["description"]
-		price11=response_dict["line_items"][0]["price"]
-		total21=response_dict["line_items"][1]["total"]
-		description21=response_dict["line_items"][1]["description"]
-		price21=response_dict["line_items"][1]["price"]
-		
-		dane_check = requests.get(address)
+		response_dict = response_dict["response"]
+		response_ocr = response_dict
 
-		print(dane_check)
-		return super().form_valid(form)
+		nip1 = response_dict["vat_number"]
+		regon1 = "38203259600000"
+		krs1 = "0000762310"
+		name1 = response_dict["vendor"]["name"]
+		billtoname1 = response_dict['vendor']['name']
+		billtovat1 = response_dict["bill_to_vat_number"]
+		number1 = response_dict["invoice_number"]
+		total1 = response_dict["total"]
+		
+		total11 = response_dict["line_items"][0]["total"]
+		description11 = response_dict["line_items"][0]["description"]
+		price11 = response_dict["line_items"][0]["price"]
+		total21 = response_dict["line_items"][1]["total"]
+		description21 = response_dict["line_items"][1]["description"]
+		price21 = response_dict["line_items"][1]["price"]
+		
+		return HttpResponseRedirect(reverse('ocr'))
 
-	def get_success_url(self):
-		return reverse('home')
+	def get(self, request, *args, **kwargs):
+		my_context = {}
+		my_context["ocr"] = response_ocr
+		return render(request, self.template_name, my_context) 
 
 class DownloadView(View):
 	template_name='download'
@@ -338,3 +309,6 @@ class UploadView(View):
 
 class HomeView(View):
 	template_name='elo/home.html'
+
+	def get(self, request, *args, **kwargs):
+		return render(request, self.template_name, {}) 
