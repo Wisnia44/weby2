@@ -31,6 +31,8 @@ price21 = 90
 total21 = 94.5
 
 #dane z checkcompanyinfo
+
+nip2 = ""
 krs2 = ""
 regon2 = "" 
 name2 = ""
@@ -40,6 +42,16 @@ check_result = ""
 tax = 4.5
 
 #dane do emaila
+
+#dane z tags
+tag_list=""
+#dane z tax
+tax1=""
+tax2=""
+#dane z danekup
+nipd=""
+addressd=""
+named=""
 
 
 # Create your views here.
@@ -127,12 +139,12 @@ class CompareCompanyInfoView(FormView):
 		my_context["check_result"] = check_result
 		return render(request, self.template_name, my_context) 
 
-class TagView(FormView):
+class TagView(View):
 	template_name='elo/tag.html'
 	form_class = TagModelForm
 	queryset = Tag.objects.all()
 
-	def form_valid(self, form):
+	def post(self, request, *args, **kwargs):
 		#billtoname = form.cleaned_data['billtoname']
 		#billtovat = form.cleaned_data['billtovat']
 		#created = form.cleaned_data['created']
@@ -154,16 +166,31 @@ class TagView(FormView):
 		}
 		data_json = json.dumps(data)
 		response = requests.post(address, json=data_json)
+		response_json = response.json()
+		response_dict = json.loads(response_json)
+		global tag_list
+		tag_list="Tagi: "
+		for i in response_dict:
+			tag_list+=str(i)
+			tag_list+=", "
+		"""
 		return super().form_valid(form)
+		"""
+		return HttpResponseRedirect(reverse('tag'))
 
-	def get_success_url(self):
-		return reverse('home')
+	def get(self, request, *args, **kwargs):
+		my_context = {}
+		my_context["tag"] = tag_list
+		
+		return render(request, self.template_name, my_context) 
 
-class TaxCalView(FormView):
+
+
+class TaxCalView(View):
 	template_name='elo/tax.html'
 	form_class = TaxModelForm
 	queryset = Tax.objects.all()
-	def form_valid(self, form):
+	def post(self, request, *args, **kwargs):
 		#description_1 = form.cleaned_data['description1']
 		#price_1 = form.cleaned_data['price1']
 		#total_1 = form.cleaned_data['total1']
@@ -192,17 +219,29 @@ class TaxCalView(FormView):
 		]}
 		data_json = json.dumps(data)
 		response = requests.post(address, json=data_json)
-		return super().form_valid(form)
+		response_json = response.json()
+		response_dict = json.loads(response_json)
+		global tax1,tax2
+		tax1=response_dict[description11]
+		tax2=response_dict[description21]
+		
+		return HttpResponseRedirect(reverse('tax'))
 
-	def get_success_url(self):
-		return reverse('home')
+	def get(self, request, *args, **kwargs):
+		my_context = {}
+		my_context["desc1"] = description11+": "
+		my_context["tax1"] = tax1
+		my_context["desc2"] = description21+": "
+		my_context["tax2"] = tax2
+		
+		return render(request, self.template_name, my_context) 
 
 class DaneKupView(FormView):
 	template_name='elo/danekup.html'
 	form_class = DanekModelForm
 	queryset = Danek.objects.all()
 
-	def form_valid(self, form):
+	def post(self, request, *args, **kwargs):
 		#nip = form.cleaned_data['nip']
 		#name = form.cleaned_data['name']
 		nip =nip1
@@ -227,12 +266,25 @@ class DaneKupView(FormView):
 		   	}
 		data_json = json.dumps(data)
 		response = requests.post(address, json=data_json)
+		response_json = response.json()
+		response_dict = json.loads(response_json)
+		global nipd, named, addressd
+		nipd=response_dict["nip"]
+		named=response_dict["name"]
+		addressd=response_dict["address"]
 		dane_check = requests.get(address)
-		print(dane_check)
-		return super().form_valid(form)
+		return HttpResponseRedirect(reverse('danekup'))
 
-	def get_success_url(self):
-		return reverse('home')
+def get(self, request, *args, **kwargs):
+		my_context = {}
+		my_context["nip"] = nipd
+		my_context["name"] = named
+		my_context["address"] = addressd
+
+		
+		return render(request, self.template_name, my_context) 
+
+
 
 class OcrView(FormView):
 	template_name='elo/ocr.html'
@@ -247,7 +299,29 @@ class OcrView(FormView):
 		data = {"url":"https://drive.google.com/u/0/uc?id=11MDp5YpGtNKgja5LhPBz_SQs6HkMIXLY&export=download"}
 		data_json = json.dumps(data)
 		response = requests.post(address, json=data_json)
+		global nip1, regon1, krs1, name1, billtoname1, billtovat1, number1,total1, description11, price11, price21, total11, total21, description21  
+		
+		response_json = response.json()
+		response_dict = json.loads(response_json)
+		
+		nip1=response_dict["vat_number"]
+		regon1="38203259600000"
+		krs1="0000762310"
+		name1=response_dict["vendor"]["name"]
+		billtoname1=response_dict['vendor']['name']
+		billtovat1=response_dict["bill_to_vat_number"]
+		number1=response_dict["invoice_number"]
+		total1=response_dict["total"]
+		
+		total11=response_dict["line_items"][0]["total"]
+		description11=response_dict["line_items"][0]["description"]
+		price11=response_dict["line_items"][0]["price"]
+		total21=response_dict["line_items"][1]["total"]
+		description21=response_dict["line_items"][1]["description"]
+		price21=response_dict["line_items"][1]["price"]
+		
 		dane_check = requests.get(address)
+
 		print(dane_check)
 		return super().form_valid(form)
 
